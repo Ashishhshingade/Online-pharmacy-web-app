@@ -33,22 +33,31 @@
            <li class="nav-item">
              <a class="nav-link active" aria-current="page" href="/">Home</a>
            </li>
-           <li class="nav-item dropdown">
-             <a class="nav-link dropdown-toggle text-white" href="#" id="electronicsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-               Ayurvedic
+	   <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle text-white" href="#" id="generalDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               General Medicines
              </a>
-             <ul class="dropdown-menu" aria-labelledby="electronicsDropdown">
-               <li><a class="dropdown-item" href="{% url 'mobile' %}">Herbs</a></li>
-               <li><a class="dropdown-item" href="#">Health Drinks</a></li>
+             <ul class="dropdown-menu" aria-labelledby="generalDropdown">
+               <li><a class="dropdown-item" href="{% url 'tablets_capsules' %}">Tablets/Capsules</a></li>
+               <li><a class="dropdown-item" href="{% url 'supplements' %}">Supplements</a></li>
              </ul>
            </li>
            <li class="nav-item dropdown">
-             <a class="nav-link dropdown-toggle text-white" href="#" id="fashionDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-               Health devices
+             <a class="nav-link dropdown-toggle text-white" href="#" id="ayurvedicDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               Ayurvedic
              </a>
-             <ul class="dropdown-menu" aria-labelledby="fashionDropdown">
-               <li><a class="dropdown-item" href="#">Covid essentials</a></li>
-               <li><a class="dropdown-item" href="#">Personal Care</a></li>
+             <ul class="dropdown-menu" aria-labelledby="ayurvedicDropdown">
+               <li><a class="dropdown-item" href="{% url 'herbs' %}">Herbs</a></li>
+               <li><a class="dropdown-item" href="{% url 'health_drinks' %}">Health Drinks</a></li>
+             </ul>
+           </li>
+           <li class="nav-item dropdown">
+             <a class="nav-link dropdown-toggle text-white" href="#" id="healthDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               Health Care
+             </a>
+             <ul class="dropdown-menu" aria-labelledby="healthDropdown">
+               <li><a class="dropdown-item" href="{% url 'covid_essentials' %}">Covid essentials</a></li>
+               <li><a class="dropdown-item" href="{% url 'personal_care' %}">Personal Care</a></li>
              </ul>
            </li>
          </ul>
@@ -58,26 +67,29 @@
          </form>
          <div>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	  {% if request.user.is_authenticated %}
            <li class="nav-item dropdown mx-2">
               <a class="nav-link dropdown-toggle text-white" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Group-6
+                {{ user.username }}
               </a>
               <ul class="dropdown-menu" aria-labelledby="profileDropdown">
                 <li><a class="dropdown-item" href="{% url 'profile' %}">Profile</a></li>
                 <li><a class="dropdown-item" href="{% url 'orders' %}">Orders</a></li>
                 <li><a class="dropdown-item" href="{% url 'changepassword' %}">Change Password</a></li>
-                <li><a class="dropdown-item" href="#">Logout</a></li>
+                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout</a></li>
               </ul>
             </li>
             <li class="nav-item mx-2">
              <a href="{% url 'add-to-cart' %}" class="nav-link text-white"><span class="badge bg-danger">4</span> Cart </a>
             </li>
+	  {% else %}
             <li class="nav-item mx-2">
              <a href="{% url 'login' %}" class="nav-link text-white">Login</a>
             </li>
             <li class="nav-item mx-2">
              <a href="{% url 'customerregistration' %}" class="nav-link text-white">Registration</a>
             </li>
+	  {% endif %}
           </ul>
          </div>
        </div>

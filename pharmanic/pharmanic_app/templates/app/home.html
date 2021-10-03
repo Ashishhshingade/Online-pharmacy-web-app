@@ -46,21 +46,12 @@
 {% block main-content %}
 <!-- 1st Product Slider -->
 <div class="m-3">
- <h2>Pharmanic Deals of The Day</h2>
+ <h2>Pharmanic General Medicines</h2>
  <!-- Slider 1 -->
  <div class="owl-carousel" id="slider1">
-  <a href="{% url 'product-detail' %}" class="btn"><div class="item"><img src="{% static 'app/images/product/prega.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 1</span><br><span class="fs-5">Rs. 600</span></div></a>
-  <div class="item"><img src="{% static 'app/images/product/thermo.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 2</span><br><span class="fs-5">Rs. 1500</span></div>
-  <div class="item"><img src="{% static 'app/images/product/pulseOximeter.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 3</span><br><span class="fs-5">Rs. 1000</span></div>
-  <div class="item"><img src="{% static 'app/images/product/waterbag.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 4</span><br><span class="fs-5">Rs. 1400</span></div>
-  <div class="item"><img src="{% static 'app/images/product/honey.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 5</span><br><span class="fs-5">Rs. 500</span></div>
-  <div class="item"><img src="{% static 'app/images/product/chavanprash.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 6</span><br><span class="fs-5">Rs. 400</span></div>
-  <div class="item"><img src="{% static 'app/images/product/kanthika.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 7</span><br><span class="fs-5">Rs. 100</span></div>
-  <div class="item"><img src="{% static 'app/images/product/gasex.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 8</span><br><span class="fs-5">Rs. 350</span></div>
-  <div class="item"><img src="{% static 'app/images/product/amlajuice.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 9</span><br><span class="fs-5">Rs. 650</span></div>
-  <div class="item"><img src="{% static 'app/images/product/mask.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 10</span><br><span class="fs-5">Rs. 400</span></div>
-  <div class="item"><img src="{% static 'app/images/product/weighingMachine.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 11</span><br><span class="fs-5">Rs. 1200</span></div>
-  <div class="item"><img src="{% static 'app/images/product/kofol.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 12</span><br><span class="fs-5">Rs. 200</span></div>
+ {% for g in general %}
+  <a href="{% url 'product-detail' g.id %}" class="btn"><div class="item"><img src="{{ g.product_image.url }}" alt="" height="200px"><span style="font-weight:bold; font-size:16px;"> {{ g.title }} </span><br><span style="font-size:14px;">Rs. {{ g.discounted_price }} </span></div></a>
+ {% endfor %}
  </div>
 </div>
 <!-- End 1st Product Slider -->
@@ -102,22 +93,26 @@
 
 <!-- 2nd Product Slider -->
 <div class="mx-3">
- <h2>Trending Deals</h2>
+ <h2>Pharmanic Ayurvedic Medicines</h2>
  <!-- Slider 2 -->
  <div class="owl-carousel" id="slider2">
-   <div class="item"><img src="{% static 'app/images/product/prega.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 1</span><br><span class="fs-5">Rs. 600</span></div></a>
-   <div class="item"><img src="{% static 'app/images/product/thermo.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 2</span><br><span class="fs-5">Rs. 1500</span></div>
-   <div class="item"><img src="{% static 'app/images/product/pulseOximeter.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 3</span><br><span class="fs-5">Rs. 1000</span></div>
-   <div class="item"><img src="{% static 'app/images/product/waterbag.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 4</span><br><span class="fs-5">Rs. 1400</span></div>
-   <div class="item"><img src="{% static 'app/images/product/honey.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 5</span><br><span class="fs-5">Rs. 500</span></div>
-   <div class="item"><img src="{% static 'app/images/product/chavanprash.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 6</span><br><span class="fs-5">Rs. 400</span></div>
-   <div class="item"><img src="{% static 'app/images/product/kanthika.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 7</span><br><span class="fs-5">Rs. 100</span></div>
-   <div class="item"><img src="{% static 'app/images/product/gasex.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 8</span><br><span class="fs-5">Rs. 350</span></div>
-   <div class="item"><img src="{% static 'app/images/product/amlajuice.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 9</span><br><span class="fs-5">Rs. 650</span></div>
-   <div class="item"><img src="{% static 'app/images/product/mask.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 10</span><br><span class="fs-5">Rs. 400</span></div>
-   <div class="item"><img src="{% static 'app/images/product/weighingMachine.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 11</span><br><span class="fs-5">Rs. 1200</span></div>
-   <div class="item"><img src="{% static 'app/images/product/kofol.jpg' %}" alt="" height="200px"><span class="fw-bold">Product 12</span><br><span class="fs-5">Rs. 200</span></div>
+ {% for a in ayurvedic %}
+  <a href="{% url 'product-detail' a.id %}" class="btn"><div class="item"><img src="{{ a.product_image.url }}" alt="" height="200px"><span style="font-weight:bold; font-size:16px;"> {{ a.title }} </span><br><span style="font-size:14px;">Rs. {{ a.discounted_price }} </span></div></a>
+ {% endfor %}
  </div>
 </div>
 <!-- End 2nd Product Slider -->
+
+<!-- 3rd Product Slider -->
+<div class="mx-3">
+ <h2>Pharmanic Healthcare Products</h2>
+ <!-- Slider 3 -->
+ <div class="owl-carousel" id="slider3">
+ {% for h in healthcare %}
+  <a href="{% url 'product-detail' h.id %}" class="btn"><div class="item"><img src="{{ h.product_image.url }}" alt="" height="200px"><span style="font-weight:bold; font-size:16px;"> {{ h.title }} </span><br><span style="font-size:14px;">Rs. {{ h.discounted_price }} </span></div></a>
+ {% endfor %}
+ </div>
+</div>
+<!-- End 3rd Product Slider -->
+
 {% endblock main-content %}
