@@ -36,7 +36,7 @@ class ProductDetailView(View):
         if request.user.is_authenticated:
             item_already_in_cart = Cart.objects.filter(Q(product=product.id)
             & Q(user=request.user)).exists()
-        
+
         return render(request, 'app/productdetail.html',
         {'product': product,
         'item_already_in_cart': item_already_in_cart})
@@ -185,8 +185,7 @@ class CustomerRegistrationView(View):
     def post(self, request):
         form = CustomerRegistrationForm(request.POST)
         if form.is_valid():
-            messages.success(
-                request, 'Congratulations!! Registered Successfully')
+            messages.success(request,'Congratulations!! Registered Successfully')
             form.save()
         return render(request, 'app/customerregistration.html', {'form': form})
 
@@ -233,9 +232,7 @@ class ProfileView(View):
             city = form.cleaned_data['city']
             state = form.cleaned_data['state']
             zipcode = form.cleaned_data['zipcode']
-            reg = Customer(user=usr, name=name, locality=locality,
-                           city=city, state=state, zipcode=zipcode)
+            reg = Customer(user=usr, name=name, locality=locality,city=city,state=state,zipcode=zipcode)
             reg.save()
-            messages.success(
-                request, 'Congratulations !! profile updated successfully')
-        return render(request, 'app/profile.html', {'form': form})
+            messages.success(request,'Congratulations !! profile updated successfully')
+        return render(request, 'app/profile.html', {'form': form, 'active': 'btn-primary'})

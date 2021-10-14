@@ -41,6 +41,7 @@ class MypasswordChangeForm(PasswordChangeForm):
         attrs={'autocomplete': 'new-password', 'class': 'form-control'}))
 
 
+
 class MyPasswordResetForm(PasswordResetForm):
     email = forms.EmailField(label=_("Email"), max_length=254, widget=forms.EmailInput(
         attrs={'autocomplete': 'email', 'class': 'form-control'}))

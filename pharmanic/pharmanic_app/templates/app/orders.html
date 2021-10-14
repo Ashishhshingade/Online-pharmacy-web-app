@@ -7,7 +7,7 @@
  <h3>Welcome <span class="text-capitalize">{{request.user}}</span></h3>
   <div class="col-sm-2 border-end">
    <ul class="list-unstyled">
-    <li class="d-grid"><a href="{% url 'orders' %}" class="btn btn-primary">Orders</a></li>
+    <li class="d-grid"><a href="{% url 'orders' %}" class="btn buttonColor">Orders</a></li>
    </ul>
   </div>
   <div class="col-sm-9 offset-sm-1">
@@ -25,21 +25,35 @@
       <p>Order Status: {{op.status}}</p>
       {% if op.status == 'Accepted' %}
       <div class="progress">
-        <div class="progress-bar bg-info" role="progressbar" style="width: 20%"
+        <div class="progress-bar buttonColor progress-bar-striped" role="progressbar" style="width: 20%"
           aria-valuenow="20" aria-valuemin="0" aria-valuamax="100"></div>
       </div>
       {% endif %}
 
       {% if op.status == 'Packed' %}
       <div class="progress">
-        <div class="progress-bar bg-info" role="progressbar" style="width: 40%"
+        <div class="progress-bar buttonColor progress-bar-striped" role="progressbar" style="width: 40%"
           aria-valuenow="40" aria-valuemin="0" aria-valuamax="100"></div>
+      </div>
+      {% endif %}
+
+      {% if op.status == 'On The Way' %}
+      <div class="progress">
+        <div class="progress-bar buttonColor progress-bar-striped" role="progressbar" style="width: 70%"
+          aria-valuenow="70" aria-valuemin="0" aria-valuamax="100"></div>
       </div>
       {% endif %}
 
       {% if op.status == 'Delivered' %}
       <div class="progress">
-        <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
+        <div class="progress-bar bg-success progress-bar-striped" role="progressbar" style="width: 100%"
+          aria-valuenow="100" aria-valuemin="0" aria-valuamax="100"></div>
+      </div>
+      {% endif %}
+
+      {% if op.status == 'Cancel' %}
+      <div class="progress">
+        <div class="progress-bar bg-danger progress-bar-striped" role="progressbar" style="width: 100%"
           aria-valuenow="100" aria-valuemin="0" aria-valuamax="100"></div>
       </div>
       {% endif %}
