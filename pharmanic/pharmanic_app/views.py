@@ -14,6 +14,7 @@ from django.utils.decorators import method_decorator
 
 class ProductView(View):
     def get(self, request):
+        totalitem = 0
         tablets_capsules = Product.objects.filter(category='TC')
         supplements = Product.objects.filter(category='S')
         general = tablets_capsules | supplements
@@ -23,7 +24,9 @@ class ProductView(View):
         covid_essentials = Product.objects.filter(category='CE')
         personal_care = Product.objects.filter(category='PC')
         healthcare = covid_essentials | personal_care
-        return render(request, 'app/home.html', {'tablets_capsules': tablets_capsules, 'supplements': supplements, 'general': general, 'herbs': herbs, 'health_drinks': health_drinks, 'ayurvedic': ayurvedic, 'covid_essentials': covid_essentials, 'personal_care': personal_care, 'healthcare': healthcare})
+        if request.user.is_authenticated:
+            totalitem = len(Cart.objects.filter(user=request.user))
+        return render(request, 'app/home.html', {'tablets_capsules': tablets_capsules, 'supplements': supplements, 'general': general, 'herbs': herbs, 'health_drinks': health_drinks, 'ayurvedic': ayurvedic, 'covid_essentials': covid_essentials, 'personal_care': personal_care, 'healthcare': healthcare,'totalitem': totalitem})
 
 
 # def product_detail(request):
@@ -31,15 +34,17 @@ class ProductView(View):
 
 class ProductDetailView(View):
     def get(self, request, pk):
+        totalitem = 0
         product = Product.objects.get(pk=pk)
         item_already_in_cart = False
         if request.user.is_authenticated:
+            totalitem = len(Cart.objects.filter(user=request.user))
             item_already_in_cart = Cart.objects.filter(Q(product=product.id)
             & Q(user=request.user)).exists()
 
         return render(request, 'app/productdetail.html',
         {'product': product,
-        'item_already_in_cart': item_already_in_cart})
+        'item_already_in_cart': item_already_in_cart,'totalitem': totalitem})
 
 @login_required
 def add_to_cart(request):
@@ -51,9 +56,11 @@ def add_to_cart(request):
 
 @login_required
 def show_cart(request):
+    totalitem = 0
     if request.user.is_authenticated:
         user = request.user
         cart = Cart.objects.filter(user=user)
+        totalitem = len(Cart.objects.filter(user=request.user))
         # print(cart)
         amount = 0.0
         shipping_amount = 70.0
@@ -65,7 +72,7 @@ def show_cart(request):
                 tempamount = (p.quantity * p.product.discounted_price)
                 amount += tempamount
                 totalamount = amount+shipping_amount
-            return render(request, 'app/addtocart.html', {'totalamount': totalamount, 'amount': amount, 'carts': cart})
+            return render(request, 'app/addtocart.html', {'totalamount': totalamount, 'amount': amount, 'carts': cart,'totalitem': totalitem})
         else:
             return render(request, 'app/emptycart.html')
 
@@ -138,49 +145,71 @@ def profile(request):
 
 @login_required
 def address(request):
+    totalitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user=request.user))
     add = Customer.objects.filter(user=request.user)
-    return render(request, 'app/address.html', {'add': add})
+    return render(request, 'app/address.html', {'add': add, 'totalitem': totalitem})
 
 @login_required
 def orders(request):
     op = OrderPlaced.objects.filter(user=request.user)
-    return render(request, 'app/orders.html', {'order_placed':op})
+    totalitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user=request.user))
+    return render(request, 'app/orders.html', {'order_placed':op,'totalitem': totalitem})
 
 
 def tablets_capsules(request):
     tablets_capsules = Product.objects.filter(category='TC')
-    return render(request, 'app/tablets_capsules.html', {'tablets_capsules': tablets_capsules})
+    totalitem = 0
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user=request.user))
+    return render(request, 'app/tablets_capsules.html', {'tablets_capsules': tablets_capsules,'totalitem': totalitem})
 
 
 def supplements(request):
     supplements = Product.objects.filter(category='S')
-    return render(request, 'app/supplements.html', {'supplements': supplements})
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user=request.user))
+    return render(request, 'app/supplements.html', {'supplements': supplements,'totalitem': totalitem})
 
 
 def herbs(request):
     herbs = Product.objects.filter(category='H')
-    return render(request, 'app/herbs.html', {'herbs': herbs})
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user=request.user))
+    return render(request, 'app/herbs.html', {'herbs': herbs,'totalitem': totalitem})
 
 
 def health_drinks(request):
     health_drinks = Product.objects.filter(category='HD')
-    return render(request, 'app/health_drinks.html', {'health_drinks': health_drinks})
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user=request.user))
+    return render(request, 'app/health_drinks.html', {'health_drinks': health_drinks,'totalitem': totalitem})
 
 
 def covid_essentials(request):
     covid_essentials = Product.objects.filter(category='CE')
-    return render(request, 'app/covid_essentials.html', {'covid_essentials': covid_essentials})
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user=request.user))
+    return render(request, 'app/covid_essentials.html', {'covid_essentials': covid_essentials,'totalitem': totalitem})
 
 
 def personal_care(request):
     personal_care = Product.objects.filter(category='PC')
-    return render(request, 'app/personal_care.html', {'personal_care': personal_care})
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user=request.user))
+    return render(request, 'app/personal_care.html', {'personal_care': personal_care,'totalitem': totalitem})
 
 
 class CustomerRegistrationView(View):
     def get(self, request):
+        totalitem = 0
         form = CustomerRegistrationForm()
-        return render(request, 'app/customerregistration.html', {'form': form})
+        if request.user.is_authenticated:
+            totalitem = len(Cart.objects.filter(user=request.user))
+        return render(request, 'app/customerregistration.html', {'form': form,'totalitem': totalitem})
 
     def post(self, request):
         form = CustomerRegistrationForm(request.POST)
@@ -203,7 +232,9 @@ def checkout(request):
             tempamount = (p.quantity * p.product.discounted_price)
             amount += tempamount
         totalamount = amount + shipping_amount
-    return render(request, 'app/checkout.html', {'add':add, 'totalamount':totalamount, 'cart_items': cart_items})
+    if request.user.is_authenticated:
+        totalitem = len(Cart.objects.filter(user=request.user))
+    return render(request, 'app/checkout.html', {'add':add, 'totalamount':totalamount, 'cart_items': cart_items,'totalitem': totalitem})
 
 @login_required
 def payment_done(request):
@@ -221,7 +252,10 @@ def payment_done(request):
 class ProfileView(View):
     def get(self, request):
         form = CustomerProfileForm
-        return render(request, 'app/profile.html', {'form': form})
+        totalitem = 0
+        if request.user.is_authenticated:
+            totalitem = len(Cart.objects.filter(user=request.user))
+        return render(request, 'app/profile.html', {'form': form,'totalitem': totalitem})
 
     def post(self, request):
         form = CustomerProfileForm(request.POST)
