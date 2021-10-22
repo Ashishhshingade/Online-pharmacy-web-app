@@ -39,12 +39,10 @@ class ProductDetailView(View):
         item_already_in_cart = False
         if request.user.is_authenticated:
             totalitem = len(Cart.objects.filter(user=request.user))
-            item_already_in_cart = Cart.objects.filter(Q(product=product.id)
-            & Q(user=request.user)).exists()
+            item_already_in_cart = Cart.objects.filter(Q(product=product.id) & Q(user=request.user)).exists()
 
         return render(request, 'app/productdetail.html',
-        {'product': product,
-        'item_already_in_cart': item_already_in_cart,'totalitem': totalitem})
+        {'product': product, 'item_already_in_cart': item_already_in_cart,'totalitem': totalitem})
 
 @login_required
 def add_to_cart(request):
@@ -170,6 +168,7 @@ def tablets_capsules(request):
 
 def supplements(request):
     supplements = Product.objects.filter(category='S')
+    totalitem = 0
     if request.user.is_authenticated:
         totalitem = len(Cart.objects.filter(user=request.user))
     return render(request, 'app/supplements.html', {'supplements': supplements,'totalitem': totalitem})
@@ -177,6 +176,7 @@ def supplements(request):
 
 def herbs(request):
     herbs = Product.objects.filter(category='H')
+    totalitem = 0
     if request.user.is_authenticated:
         totalitem = len(Cart.objects.filter(user=request.user))
     return render(request, 'app/herbs.html', {'herbs': herbs,'totalitem': totalitem})
@@ -184,6 +184,7 @@ def herbs(request):
 
 def health_drinks(request):
     health_drinks = Product.objects.filter(category='HD')
+    totalitem = 0
     if request.user.is_authenticated:
         totalitem = len(Cart.objects.filter(user=request.user))
     return render(request, 'app/health_drinks.html', {'health_drinks': health_drinks,'totalitem': totalitem})
@@ -191,6 +192,7 @@ def health_drinks(request):
 
 def covid_essentials(request):
     covid_essentials = Product.objects.filter(category='CE')
+    totalitem = 0
     if request.user.is_authenticated:
         totalitem = len(Cart.objects.filter(user=request.user))
     return render(request, 'app/covid_essentials.html', {'covid_essentials': covid_essentials,'totalitem': totalitem})
@@ -198,6 +200,7 @@ def covid_essentials(request):
 
 def personal_care(request):
     personal_care = Product.objects.filter(category='PC')
+    totalitem = 0
     if request.user.is_authenticated:
         totalitem = len(Cart.objects.filter(user=request.user))
     return render(request, 'app/personal_care.html', {'personal_care': personal_care,'totalitem': totalitem})
