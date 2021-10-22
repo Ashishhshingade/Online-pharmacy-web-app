@@ -2,6 +2,14 @@
 {% load static %}
 {% block title %}Cart{% endblock title %}
 {% block main-content %}
+<script type="text/javascript">
+    function ValidateTextBox() {
+        if ({{amount}} == 0) {
+            alert("Cart is Empty!");
+            return false;
+        }
+    };
+</script>
 <div class="container my-5">
   <div class="row">
     <h1 class="text-center mb-5">Shopping Cart</h1>
@@ -55,7 +63,7 @@
               <span><strong>Rs. <strong id="totalamount">{{totalamount}}</strong></strong></span>
             </li>
           </ul>
-          <div class="d-grid"><a href="{% url 'checkout' %}" class="btn buttonColor">Place Order</a></div>
+          <div class="d-grid"><a href="{% url 'checkout' %}" class="btn buttonColor" >Place Order</a></div>
         </div>
       </div>
     </div>

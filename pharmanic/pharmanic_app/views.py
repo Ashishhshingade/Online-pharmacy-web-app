@@ -60,6 +60,9 @@ def show_cart(request):
         cart = Cart.objects.filter(user=user)
         totalitem = len(Cart.objects.filter(user=request.user))
         # print(cart)
+        if totalitem == 0:
+            return render(request, 'app/emptycart.html')
+
         amount = 0.0
         shipping_amount = 70.0
         total_amount = 0.0
@@ -99,6 +102,9 @@ def minus_cart(request):
         prod_id = request.GET['prod_id']
         c = Cart.objects.get(Q(product=prod_id) & Q(user=request.user))
         c.quantity-=1
+        if c.quantity <= 0:
+            remove_cart(int(prod_id))
+	 
         c.save()
         amount = 0.0
         shipping_amount = 70.0
@@ -234,7 +240,10 @@ def checkout(request):
         for p in cart_product:
             tempamount = (p.quantity * p.product.discounted_price)
             amount += tempamount
+        print(amount)
         totalamount = amount + shipping_amount
+    else:
+        return redirect(show_cart)
     if request.user.is_authenticated:
         totalitem = len(Cart.objects.filter(user=request.user))
     return render(request, 'app/checkout.html', {'add':add, 'totalamount':totalamount, 'cart_items': cart_items,'totalitem': totalitem})
